@@ -6,12 +6,12 @@ import { site, displayPhone, waLink, services } from "@/lib/site";
 export default function Footer({ lang, t }) {
   const year = new Date().getFullYear();
   return (
-    <footer className="bg-ink pb-24 pt-16 text-white/75 lg:pb-10">
+    <footer className="bg-ink pb-10 pt-12 sm:pt-16 text-white/75 lg:pb-10">
       <div className="container-x grid gap-10 md:grid-cols-4">
         <div className="md:col-span-2">
           <div className="flex items-center gap-2.5">
-            <Logo size={46} id="jaf-f" />
-            <span className="text-lg font-extrabold text-white">{site.name[lang]}</span>
+            <Logo size={60} id="jaf-f" />
+            <span className="text-xl font-extrabold text-white sm:text-2xl">{site.name[lang]}</span>
           </div>
           <p className="mt-4 max-w-md text-sm leading-relaxed">{t.footer.about}</p>
           <div className="mt-5 flex gap-3">

@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { ui, hasLocale } from "@/lib/i18n";
+import { ui, hasLocale, pick } from "@/lib/i18n";
 import { site, services, displayPhone, waLink } from "@/lib/site";
 import { PageHero } from "@/components/Parts";
 import ContactForm from "@/components/ContactForm";
@@ -10,7 +10,20 @@ export async function generateMetadata({ params }) {
   const { lang } = await params;
   if (!hasLocale(lang)) return {};
   const t = ui[lang].pageContact;
-  return buildMetadata({ lang, path: "/contact", title: t.title, description: t.subtitle });
+  return buildMetadata({
+    lang,
+    path: "/contact",
+    title: pick(lang, {
+      ar: "اتصل بنا | احجز فني مكيفات في جدة عبر واتساب",
+      en: "Contact Us | Book an AC Technician in Jeddah on WhatsApp",
+      ur: "رابطہ کریں | جدہ میں واٹس ایپ پر اے سی ٹیکنیشن بک کریں",
+    }),
+    description: pick(lang, {
+      ar: "تواصل مع جدة كول كير لحجز فني مكيفات أو ثلاجات أو غسالات في جدة. اتصل أو راسلنا على واتساب وأرسل المشكلة وموقعك. نعمل يومياً من 10 صباحاً إلى 10 مساءً.",
+      en: "Contact Jeddah Cool Care to book an AC, refrigerator or washing machine technician in Jeddah. Call or WhatsApp us with the problem and your location. Open daily 10 AM to 10 PM.",
+      ur: "جدہ میں اے سی، فریج یا واشنگ مشین ٹیکنیشن بک کرنے کے لیے جدہ کول کیئر سے رابطہ کریں۔ کال یا واٹس ایپ پر مسئلہ اور لوکیشن بھیجیں۔ روزانہ صبح 10 سے رات 10 بجے تک۔",
+    }),
+  });
 }
 
 export default async function ContactPage({ params }) {

@@ -24,9 +24,9 @@ export function Snowfall() {
 
 export function SectionHead({ eyebrow, title, subtitle, light = false, center = true }) {
   return (
-    <div className={`mx-auto mb-12 max-w-2xl ${center ? "text-center" : ""}`}>
+    <div className={`mx-auto mb-8 max-w-2xl sm:mb-12 ${center ? "text-center" : ""}`}>
       <span className="eyebrow">{eyebrow}</span>
-      <h2 className={`mt-2 text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl ${light ? "text-white" : "text-ink"}`}>
+      <h2 className={`mt-2 text-[1.65rem] font-extrabold leading-tight tracking-tight sm:text-4xl ${light ? "text-white" : "text-ink"}`}>
         {title}
       </h2>
       {subtitle && <p className={`mt-3 text-base leading-relaxed ${light ? "text-white/70" : "text-slate-600"}`}>{subtitle}</p>}

@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { ui, hasLocale } from "@/lib/i18n";
+import { ui, hasLocale, pick } from "@/lib/i18n";
 import { services } from "@/lib/site";
 import { PageHero, ServiceCard } from "@/components/Parts";
 import { buildMetadata } from "@/lib/seo";
@@ -8,7 +8,20 @@ export async function generateMetadata({ params }) {
   const { lang } = await params;
   if (!hasLocale(lang)) return {};
   const t = ui[lang].pageServices;
-  return buildMetadata({ lang, path: "/services", title: t.title, description: t.subtitle });
+  return buildMetadata({
+    lang,
+    path: "/services",
+    title: pick(lang, {
+      ar: "خدمات صيانة المكيفات والثلاجات والغسالات في جدة",
+      en: "AC, Fridge & Washing Machine Repair Services in Jeddah",
+      ur: "جدہ میں اے سی، فریج اور واشنگ مشین کی مرمت کی خدمات",
+    }),
+    description: pick(lang, {
+      ar: "تصليح مكيفات، شحن فريون، غسيل وتركيب مكيفات، تصليح ثلاجات وتصليح غسالات في جدة. فنيون محترفون وزيارة في نفس اليوم. اتصل أو راسلنا على واتساب.",
+      en: "AC repair, gas charging, AC cleaning and installation, refrigerator repair and washing machine repair in Jeddah. Skilled technicians, same-day visits. Call or WhatsApp us.",
+      ur: "جدہ میں اے سی کی مرمت، گیس چارجنگ، صفائی اور انسٹالیشن، فریج اور واشنگ مشین کی مرمت۔ ماہر ٹیکنیشن، اسی دن وزٹ۔ کال کریں یا واٹس ایپ کریں۔",
+    }),
+  });
 }
 
 export default async function ServicesPage({ params }) {

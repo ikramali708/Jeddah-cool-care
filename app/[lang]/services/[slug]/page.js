@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ui, hasLocale, LOCALES, pick } from "@/lib/i18n";
-import { services, getService, areas, waLink, telLink, site } from "@/lib/site";
+import { services, getService, serviceSeo, areas, waLink, telLink, site } from "@/lib/site";
 import { PageHero, CheckList, Faq, SectionHead } from "@/components/Parts";
 import { PhoneIcon, WhatsAppIcon, PinIcon, ServiceIcon } from "@/components/Icons";
-import { buildMetadata } from "@/lib/seo";
+import { buildMetadata, breadcrumbJsonLd, faqJsonLd } from "@/lib/seo";
 
 export function generateStaticParams() {
   return LOCALES.flatMap((lang) => services.map((s) => ({ lang, slug: s.slug })));
@@ -17,8 +17,8 @@ export async function generateMetadata({ params }) {
   return buildMetadata({
     lang,
     path: `/services/${slug}`,
-    title: s[lang].title,
-    description: s[lang].short + " " + s[lang].intro.slice(0, 90),
+    title: serviceSeo[slug][lang].title,
+    description: serviceSeo[slug][lang].desc,
   });
 }
 
@@ -35,19 +35,16 @@ export default async function ServicePage({ params }) {
     "@type": "Service",
     name: c.title,
     description: c.intro,
-    provider: { "@type": "LocalBusiness", name: site.name[lang], telephone: site.phone },
+    serviceType: c.title,
+    url: `${site.url}/${lang}/services/${slug}`,
+    provider: { "@id": `${site.url}/#business` },
     areaServed: { "@type": "City", name: pick(lang, { ar: "جدة", en: "Jeddah", ur: "جدہ" }) },
   };
-  const faqLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: c.faqs.map(([q, a]) => ({
-      "@type": "Question",
-      name: q,
-      acceptedAnswer: { "@type": "Answer", text: a },
-    })),
-  };
-
+  const crumbs = breadcrumbJsonLd(lang, [
+    { name: t.nav.home, path: "" },
+    { name: t.nav.services, path: "/services" },
+    { name: c.title, path: `/services/${slug}` },
+  ]);
   return (
     <>
       <PageHero title={c.title} subtitle={c.short}>
@@ -79,10 +76,10 @@ export default async function ServicePage({ params }) {
             <h2 className="mb-5 mt-12 text-2xl font-extrabold">{t.areasSection.title}</h2>
             <div className="flex flex-wrap gap-2.5">
               {areas.map((a) => (
-                <span key={a.slug} className="inline-flex items-center gap-1.5 rounded-full border border-line bg-white px-4 py-2 text-sm font-semibold">
+                <Link key={a.slug} href={`/${lang}/areas/${a.slug}`} className="inline-flex items-center gap-1.5 rounded-full border border-line bg-white px-4 py-2 text-sm font-semibold transition hover:border-ice hover:text-sky">
                   <PinIcon width={14} height={14} className="text-sky" />
                   {a[lang]}
-                </span>
+                </Link>
               ))}
             </div>
           </div>
@@ -121,7 +118,8 @@ export default async function ServicePage({ params }) {
       </section>
 
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd(c.faqs)) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(crumbs) }} />
     </>
   );
 }
