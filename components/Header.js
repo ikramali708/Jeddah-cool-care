@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { MenuIcon, CloseIcon, PhoneIcon, WhatsAppIcon } from "./Icons";
 import Logo from "./LogoAF";
-import { LOCALES, langNames } from "@/lib/i18n";
+import { LOCALES, langNames } from "@/lib/locales";
 
 export default function Header({ lang, t, brand, phone, wa }) {
   const [open, setOpen] = useState(false);
@@ -67,14 +67,14 @@ export default function Header({ lang, t, brand, phone, wa }) {
               </Link>
             ))}
           </div>
-          <a href={phone} className="btn btn-call !px-4 !py-2 !text-sm max-sm:!hidden">
+          <a href={phone} className="btn btn-call call-pulse !px-4 !py-2 !text-sm max-sm:!hidden">
             <PhoneIcon width={16} height={16} />
             {t.call}
           </a>
           <a
             href={phone}
             aria-label={t.call}
-            className="grid h-10 w-10 place-items-center rounded-full bg-gradient-to-br from-ice to-sky text-ink shadow-lg shadow-sky/30 transition active:scale-90 sm:hidden"
+            className="call-pulse grid h-10 w-10 place-items-center rounded-full bg-gradient-to-br from-ice to-sky text-ink shadow-lg shadow-sky/30 transition active:scale-90 sm:hidden"
           >
             <PhoneIcon width={19} height={19} />
           </a>

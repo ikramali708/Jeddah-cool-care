@@ -265,7 +265,7 @@ function HeroVisual({ lang }) {
   return (
     <div className="relative mx-auto w-full max-w-lg lg:max-w-none">
       {/* glow + offset frame */}
-      <div className="absolute -inset-5 rounded-[2.5rem] bg-gradient-to-br from-ice/30 via-sky/10 to-transparent blur-2xl" aria-hidden="true" />
+      <div className="absolute -inset-5 rounded-[2.5rem] bg-gradient-to-br from-ice/30 via-sky/10 to-transparent blur-2xl max-md:hidden" aria-hidden="true" />
       <div className="absolute -bottom-3 -end-3 h-full w-full rounded-[2rem] border border-ice/30" aria-hidden="true" />
 
       <div className="floaty relative">

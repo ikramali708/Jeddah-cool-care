@@ -10,10 +10,14 @@ export default function HeroCarousel({ slides, rtl = false, interval = 4500, lab
   const [paused, setPaused] = useState(false);
   const touch = useRef(null);
   const n = slides.length;
+  const [moved, setMoved] = useState(false); // false until the first slide change
 
-  const go = useCallback((to) => setI(((to % n) + n) % n), [n]);
-  const next = useCallback(() => setI((v) => (v + 1) % n), [n]);
-  const prev = useCallback(() => setI((v) => (v - 1 + n) % n), [n]);
+  const go = useCallback((to) => { setMoved(true); setI(((to % n) + n) % n); }, [n]);
+  const next = useCallback(() => { setMoved(true); setI((v) => (v + 1) % n); }, [n]);
+  const prev = useCallback(() => { setMoved(true); setI((v) => (v - 1 + n) % n); }, [n]);
+  // Mount a slide image only when it is current, next, or (after the first change) the one fading out.
+  // Keeps the first (LCP) image from competing with six other downloads.
+  const mounted = (idx) => idx === i || idx === (i + 1) % n || (moved && idx === (i - 1 + n) % n);
 
   useEffect(() => {
     if (paused || n < 2) return;
@@ -60,15 +64,18 @@ export default function HeroCarousel({ slides, rtl = false, interval = 4500, lab
           aria-roledescription="slide"
           aria-label={`${idx + 1} / ${n}`}
         >
+          {mounted(idx) && (
           <Image
             src={s.src}
             alt={s.alt}
             fill
             priority={idx === 0}
+            fetchPriority={idx === 0 ? "high" : undefined}
             sizes="(max-width: 1024px) 92vw, 45vw"
             draggable={false}
             className={`object-cover ${s.position || "object-center"} ${idx === i ? "scale-100" : "scale-105"} transition-transform duration-[6000ms] ease-out`}
           />
+          )}
         </div>
       ))}
 
