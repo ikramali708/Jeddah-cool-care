@@ -1,0 +1,19 @@
+// AC + fridge emblem (new logo). The original snowflake logo lives in Logo.js.
+export default function LogoAF({ size = 42, id = "jaf" }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id={`${id}-bg`} x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse"><stop offset="0" stopColor="#12426e"/><stop offset="1" stopColor="#041528"/></linearGradient><linearGradient id={`${id}-ring`} x1="6" y1="4" x2="58" y2="60" gradientUnits="userSpaceOnUse"><stop offset="0" stopColor="#a5f3fc"/><stop offset=".5" stopColor="#22d3ee"/><stop offset="1" stopColor="#0369a1"/></linearGradient><linearGradient id={`${id}-ice`} x1="0" y1="10" x2="0" y2="54" gradientUnits="userSpaceOnUse"><stop offset="0" stopColor="#ecfeff"/><stop offset="1" stopColor="#38bdf8"/></linearGradient><radialGradient id={`${id}-glow`} cx="32" cy="30" r="28" gradientUnits="userSpaceOnUse"><stop offset="0" stopColor="#22d3ee" stopOpacity=".25"/><stop offset="1" stopColor="#22d3ee" stopOpacity="0"/></radialGradient></defs>
+<rect x="1.5" y="1.5" width="61" height="61" rx="18" fill={`url(#${id}-bg)`}/><rect x="1.5" y="1.5" width="61" height="61" rx="18" fill={`url(#${id}-glow)`}/><rect x="2.5" y="2.5" width="59" height="59" rx="17" fill="none" stroke={`url(#${id}-ring)`} strokeWidth="1.6"/>
+<g fill="none" stroke={`url(#${id}-ice)`} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+
+<rect x="12" y="12" width="18" height="38" rx="3.6" fill="#22d3ee" fillOpacity=".08"/>
+<path d="M12 25h18"/><path d="M26 17v4M26 29.5v7"/><path d="M15.5 50v3M26.5 50v3"/>
+
+<rect x="34" y="15" width="20" height="11" rx="3.4" fill="#22d3ee" fillOpacity=".08"/>
+<path d="M37.5 22h13"/>
+
+<path d="M38 31c2.4 2.6 2.4 5 0 7.6s-2.4 5 0 7.4"/><path d="M44 31c2.4 2.6 2.4 5 0 7.6s-2.4 5 0 7.4"/><path d="M50 31c2.4 2.6 2.4 5 0 7.6s-2.4 5 0 7.4"/>
+</g>
+<circle cx="50.6" cy="18.8" r="1.2" fill="#22d3ee"/>
+</svg>
+  );
+}
